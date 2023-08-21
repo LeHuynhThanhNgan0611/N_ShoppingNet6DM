@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using N_ShoppingNet6.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<N_ShoppingContext>(option => option.UseSqlServer
-(builder.Configuration.GetConnectionString("NShopping")));
+   (builder.Configuration.GetConnectionString("NShopping")));
+builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
+{
+    //build.WithOrigins("https://localhost:3000"); chỉ những ai có domain này mới được sử dụng
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader(); //bất kỳ domain nào cũng có thể sử dụng
+}));
 
 var app = builder.Build();
 
